@@ -1,28 +1,58 @@
 interface RequestConfig {
   method: string;
   url: string;
-  headers: Record<string, string>;
-  body: string
+  headers?: Record<string, string>;
+  body?: string;
 }
 
+type RequestResult =
+  | {
+    status: number;
+    headers: Record<string, string>;
+    body: string;
+    time: number;
+  }
+  | {
+    error: string;
+    time: number;
+  };
 
-export async function executeRequest(config: RequestConfig) {
+export async function executeRequest(config: RequestConfig): Promise<RequestResult> {
   const start = Date.now();
 
-  const response = await fetch(config.url, {
-    method: config.method,
-    headers: config.headers,
-    body: config.body
-  });
+  try {
 
-  const end = Date.now()
+    const options: RequestInit = {
+      method: config.method,
+    }
 
-  const text = await response.text();
+    if (config.headers) {
+      options.headers = config.headers;
+    }
 
-  return {
-    status: response.status,
-    headers: Object.fromEntries(response.headers.entries()),
-    body: text,
-    time: end - start
+    if (config.body) {
+      options.body = config.body
+    }
+
+    const response = await fetch(config.url, options);
+
+    const text = await response.text();
+
+    return {
+      status: response.status,
+      headers: Object.fromEntries(response.headers.entries()),
+      body: text,
+      time: Date.now() - start,
+    };
+  } catch (error: unknown) {
+    return {
+      error:
+        typeof error === "string"
+          ? error
+          : error instanceof Error
+            ? error.message
+            : "Network error",
+      time: Date.now() - start,
+    };
   }
 }
