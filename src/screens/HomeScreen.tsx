@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Text, useInput } from "ink";
 
 interface HomeScreenProps {
-  onNavigate: (screen: "home" | "request" | "collections" | "history") => void;
+  onNavigate: (screen: "home" | "request" | "collections" | "history" | "setting") => void;
 }
 
 export default function HomeScreen({ onNavigate }: HomeScreenProps) {
@@ -10,6 +10,7 @@ export default function HomeScreen({ onNavigate }: HomeScreenProps) {
     { label: "New Request", value: "request" },
     { label: "Collections", value: "collections" },
     { label: "History", value: "history" },
+    { label: "Settings", value: "setting"},
     { label: "Exit", value: "exit" },
   ];
 
