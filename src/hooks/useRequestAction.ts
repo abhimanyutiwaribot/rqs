@@ -3,16 +3,19 @@ import { METHODS } from "../constants/constants.js";
 import { executeRequest } from "../core/executeRequest.js";
 import type { KVPair } from "../types/request.js";
 import { buildUrl } from "../utils/request.js";
-import { useRequestState } from "./useRequestState.js";
-import { useResponseState } from "./useResponseState.js";
 import { prettyBody } from "../utils/response.js";
-import { useUiState } from "./useUiState.js";
 import { makeField } from "../utils/textField.js";
+import type { useRequestState } from "./useRequestState.js";
+import type { useUiState } from "./useUiState.js";
+import type { useResponseState } from "./useResponseState.js";
 
-export function useRequestAction() {
-  const requestState = useRequestState();
-  const responseState = useResponseState()
-  const uiState = useUiState()
+interface RequestActionProps {
+  requestState: ReturnType<typeof useRequestState>
+  responseState: ReturnType<typeof useResponseState>
+  uiState: ReturnType<typeof useUiState>
+}
+
+export function useRequestAction({requestState, responseState, uiState}: RequestActionProps) {
 
   const cycleMethod = (dir: 1 | -1) => {
     const i = METHODS.indexOf(requestState.method);

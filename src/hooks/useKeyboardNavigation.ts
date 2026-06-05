@@ -1,21 +1,25 @@
 import { useInput } from "ink";
 import { LEFT_SECTIONS, VIEWPORT_HEIGHT } from "../constants/constants.js";
 import { makeField, tfDelete, tfInsert, tfLeft, tfRight } from "../utils/textField.js";
-import { useUiState } from "./useUiState.js";
-import { useResponseState } from "./useResponseState.js";
-import { useRequestState } from "./useRequestState.js";
-import { useResponseAction } from "./useResponseAction.js";
-import { useRequestAction } from "./useRequestAction.js";
+import type { useResponseAction } from "./useResponseAction.js";
+import type { useRequestAction } from "./useRequestAction.js";
+import type { useRequestState } from "./useRequestState.js";
+import type { useResponseState } from "./useResponseState.js";
+import type { useUiState } from "./useUiState.js";
 
+interface KeyboardNavigationProps {
+  onBack: () => void;
+  requestState: ReturnType<typeof useRequestState>;
+  responseState: ReturnType<typeof useResponseState>;
+  uiState: ReturnType<typeof useUiState>;
+  responseActions: ReturnType<typeof useResponseAction>;
+  requestActions: ReturnType<typeof useRequestAction>
+}
 
+export function useKeyboardNavigation({ onBack, requestState, responseState, uiState, responseActions, requestActions}: KeyboardNavigationProps){
 
-export function useKeyboardNavigation({onBack}: { onBack: () => void }){
-  
-  const uiState = useUiState()
-  const responseState = useResponseState()
-  const requestState = useRequestState()
-  const { totalLines } = useResponseAction()
-  const { commitDraft, copyResponse, cycleMethod, deleteRow, sendRequest } = useRequestAction()
+  const { totalLines } = responseActions
+  const { commitDraft, copyResponse, cycleMethod, deleteRow, sendRequest } = requestActions
   const isEditing = uiState.editMode !== "none";
   
   useInput((input, key) => {
@@ -62,7 +66,7 @@ export function useKeyboardNavigation({onBack}: { onBack: () => void }){
     }
 
     // ── Global ──
-    if (input === "q" || input === "Q") { onBack(); return; }
+    if (input === "q" || input === "Q") { console.log("Q pressed"); onBack(); return; }
     if (input === "e" || input === "E") { void sendRequest(); return; }
     if (input === "c" || input === "C") { void copyResponse(); return; }
 

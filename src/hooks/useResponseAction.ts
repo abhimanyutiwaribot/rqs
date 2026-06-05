@@ -1,11 +1,14 @@
 import { VIEWPORT_HEIGHT } from "../constants/constants.js";
 import { prettyBody } from "../utils/response.js";
-import { useResponseState } from "./useResponseState.js";
-import { useUiState } from "./useUiState.js";
+import type { useResponseState } from "./useResponseState.js";
+import type { useUiState } from "./useUiState.js";
 
-export function useResponseAction() {
-  const responseState = useResponseState()
-  const uiState = useUiState()
+interface ResponseActionProps {
+  responseState: ReturnType<typeof useResponseState>
+  uiState: ReturnType<typeof useUiState>
+}
+
+export function useResponseAction({responseState, uiState}: ResponseActionProps) {
 
   const responseLines: string[] = (() => {
     if (!responseState.response || "error" in responseState.response) return [];
