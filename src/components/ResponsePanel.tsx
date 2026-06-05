@@ -1,14 +1,18 @@
 import { Box, Text } from "ink";
 import { RIGHT_DIVIDER, VIEWPORT_HEIGHT } from "../constants/constants.js";
-import { useResponseState } from "../hooks/useResponseState.js";
-import { useUiState } from "../hooks/useUiState.js";
 import { byteSize, statusColor } from "../utils/response.js";
-import { useResponseAction } from "../hooks/useResponseAction.js";
+import type { useUiState } from "../hooks/useUiState.js";
+import type { useResponseState } from "../hooks/useResponseState.js";
+import type { useResponseAction } from "../hooks/useResponseAction.js";
 
-export default function ResponsePanel(){
-  const responseState = useResponseState()
-  const uiState = useUiState()
-  const { paddedLines, totalLines} = useResponseAction()
+interface ResponsePanelProps {
+  uiState: ReturnType<typeof useUiState>;
+  responseState: ReturnType<typeof useResponseState>;
+  responseActions: ReturnType<typeof useResponseAction>;
+}
+
+export default function ResponsePanel({ uiState, responseState, responseActions}: ResponsePanelProps){
+
 
   const rightActive = uiState.panel === "right";
 
@@ -56,7 +60,7 @@ export default function ResponsePanel(){
             )}
 
             {!responseState.loading && responseState.response && !("error" in responseState.response) &&
-              paddedLines.map((line, i) => (
+              responseActions.paddedLines.map((line, i) => (
                 <Text key={i}>{line}</Text>
               ))
             }
@@ -82,8 +86,8 @@ export default function ResponsePanel(){
                   <Text dimColor>Size: </Text>
                   <Text>{byteSize(responseState.response.body)}</Text>
                 </Text>
-                {totalLines > VIEWPORT_HEIGHT && (
-                  <Text dimColor>[{responseState.respScroll + 1}–{Math.min(responseState.respScroll + VIEWPORT_HEIGHT, totalLines)}/{totalLines}]</Text>
+                {responseActions.totalLines > VIEWPORT_HEIGHT && (
+                  <Text dimColor>[{responseState.respScroll + 1}–{Math.min(responseState.respScroll + VIEWPORT_HEIGHT, responseActions.totalLines)}/{responseActions.totalLines}]</Text>
                 )}
                 {responseState.copied
                   ? <Text color="green">✓ Copied!</Text>

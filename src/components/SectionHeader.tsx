@@ -1,13 +1,16 @@
 import { Box, Text } from "ink";
-import { useUiState } from "../hooks/useUiState.js";
+import type React from "react";
 
-export default function SectionHeader({ label, right }: { label: string; right?: React.ReactNode }) {
-  const uiState = useUiState()
-  const leftActive = uiState.panel == "left"
-  const active = uiState.leftSec;
+interface SectionHeaderProps {
+  label: string;
+  active: boolean;
+  right?: React.ReactNode
+}
+
+export default function SectionHeader({ label, active, right}: SectionHeaderProps) {
   return (
     <Box justifyContent="space-between">
-      <Text color={active && leftActive ? "cyan" : active ? "cyan" : "gray"} bold>
+      <Text color={active ? "cyan" : "gray"} bold>
         {">"} {label}
       </Text>
       {right && <Text dimColor>{right}</Text>}
