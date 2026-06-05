@@ -4,13 +4,13 @@ import { DIVIDER } from "../constants/constants.js";
 import { useRequestState } from "../hooks/useRequestState.js";
 import { useUiState } from "../hooks/useUiState.js";
 import TextInput from "./TextInput.js";
-import { autoHeaders } from "../utils/request.js";
+import { useRequestAction } from "../hooks/useRequestAction.js";
 
 export default function RequestPanel(){
 
   const requestState = useRequestState()
   const uiState = useUiState()
-
+  const { autoHeaders } = useRequestAction()
   const leftActive = uiState.panel === "left";  
 
   return (
