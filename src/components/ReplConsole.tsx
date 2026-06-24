@@ -18,7 +18,7 @@ export default function ReplConsole({ state }: ReplConsoleProps) {
     <Box flexDirection="column" padding={1}>
       {/* Header */}
       <Box paddingX={1} gap={1} marginBottom={0}>
-        <Text bold color="cyan">❯ PostCLI REPL</Text>
+        <Text bold color="magenta">❯ PostCLI REPL</Text>
         <Text dimColor>—</Text>
         <Text color="gray">interactive HTTP shell console</Text>
       </Box>
@@ -38,7 +38,7 @@ export default function ReplConsole({ state }: ReplConsoleProps) {
       {/* Output Console Log */}
       <Box 
         flexDirection="column" 
-        maxHeight={state.VIEWPORT_HEIGHT} 
+        height={state.VIEWPORT_HEIGHT} 
         overflow="hidden" 
         paddingX={1} 
         marginBottom={1}
@@ -51,8 +51,8 @@ export default function ReplConsole({ state }: ReplConsoleProps) {
             ) : (
               <Text 
                 color={
-                  line.startsWith("  █") || line.startsWith("  ╚") ? "cyan" :
-                  line.startsWith("postcli ❯") ? "cyan" : 
+                  line.startsWith("  █") || line.startsWith("  ╚") ? "magenta" :
+                  line.startsWith("postcli ❯") ? "magenta" : 
                   line.startsWith("❯") ? "yellow" : 
                   "white"
                 } 
@@ -74,10 +74,15 @@ export default function ReplConsole({ state }: ReplConsoleProps) {
       )}
 
       {/* Prompt Input bar */}
-      <Box paddingX={1} marginTop={1}>
+      <Box 
+        borderStyle="round" 
+        borderColor="magenta" 
+        paddingX={1} 
+        marginTop={0}
+      >
         {state.panel === "input" ? (
           <Box>
-            <Text color="cyan" bold>postcli ❯ </Text>
+            <Text color="magenta" bold>postcli ❯ </Text>
             {(() => {
               const { value, cursor } = state.inputValue;
               const before = value.slice(0, cursor);
@@ -86,7 +91,7 @@ export default function ReplConsole({ state }: ReplConsoleProps) {
               return (
                 <Text>
                   <Text color="white">{before}</Text>
-                  <Text backgroundColor="cyan" color="black">{atCursor}</Text>
+                  <Text backgroundColor="magenta" color="black">{atCursor}</Text>
                   <Text color="white">{after}</Text>
                 </Text>
               );
@@ -99,8 +104,8 @@ export default function ReplConsole({ state }: ReplConsoleProps) {
           <Box gap={2}>
             <Text color="yellow" bold>SCROLL MODE ❯ </Text>
             <Text color="gray">
-              <Text color="cyan">j/k (↑/↓)</Text> scroll log  •  
-              <Text color="cyan">v</Text> inspect response  •  
+              <Text color="magenta">j/k (↑/↓)</Text> scroll log  •  
+              <Text color="magenta">v</Text> inspect response  •  
               <Text color="green">c</Text> copy body  •  
               <Text color="yellow">Esc / i</Text> edit  •  
               <Text color="red">q</Text> quit

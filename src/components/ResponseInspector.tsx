@@ -48,10 +48,10 @@ export default function ResponseInspector({ state }: ResponseInspectorProps) {
         <Box flexDirection="column" flexGrow={1}>
           {/* Tab Buttons */}
           <Box paddingX={1} gap={3} marginBottom={1}>
-            <Text bold color={isBodyTab ? "cyan" : "gray"}>
+            <Text bold color={isBodyTab ? "magenta" : "gray"}>
               {isBodyTab ? "● Body" : "  Body"}
             </Text>
-            <Text bold color={!isBodyTab ? "cyan" : "gray"}>
+            <Text bold color={!isBodyTab ? "magenta" : "gray"}>
               {!isBodyTab ? "● Headers" : "  Headers"}
             </Text>
             <Text dimColor>(Tab to switch)</Text>
@@ -116,8 +116,8 @@ export default function ResponseInspector({ state }: ResponseInspectorProps) {
       {/* Bottom Help Bar */}
       <Box paddingX={1} marginTop={1}>
         <Text dimColor>
-          <Text color="cyan">Tab</Text> toggle tabs  •  
-          <Text color="cyan">j/k (↑/↓)</Text> scroll  •  
+          <Text color="magenta">Tab</Text> toggle tabs  •  
+          <Text color="magenta">j/k (↑/↓)</Text> scroll  •  
           <Text color="green">c</Text> copy body  •  
           <Text color="red">Esc / q</Text> close inspector
         </Text>

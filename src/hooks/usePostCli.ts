@@ -59,7 +59,7 @@ export function usePostCli() {
     };
   }, []);
 
-  const VIEWPORT_HEIGHT = Math.max(8, terminalRows - 7);
+  const VIEWPORT_HEIGHT = Math.max(6, terminalRows - 9);
   const INSPECTOR_HEIGHT = Math.max(8, terminalRows - 9);
   const totalLines = consoleLines.length;
 

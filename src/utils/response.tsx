@@ -4,7 +4,7 @@ import { Text } from "ink";
 export function statusColor(s: number) {
   if (s >= 500) return "red";
   if (s >= 400) return "yellow";
-  if (s >= 300) return "cyan";
+  if (s >= 300) return "blue";
   return "green";
 }
 
@@ -44,7 +44,7 @@ export function highlightJsonLine(line: string): React.ReactNode {
       return (
         <Text>
           <Text>{indent}</Text>
-          <Text color="cyan">{key}</Text>
+          <Text color="blue">{key}</Text>
           <Text>{colon}</Text>
           <Text color={valColor}>{val}</Text>
           <Text color="gray">{trailing}</Text>
@@ -56,7 +56,7 @@ export function highlightJsonLine(line: string): React.ReactNode {
       return (
         <Text>
           <Text>{indent}</Text>
-          <Text color="cyan">{key}</Text>
+          <Text color="blue">{key}</Text>
           <Text>{colon}</Text>
           <Text color={isStringStart ? "green" : "gray"}>{rest}</Text>
         </Text>
