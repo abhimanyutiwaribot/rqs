@@ -13,15 +13,14 @@ export function usePostCli() {
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [baseUrl, setBaseUrl] = useState<string | undefined>(undefined);
   const [consoleLines, setConsoleLines] = useState<string[]>([
-    "  ██████╗  ██████╗ ███████╗████████╗ ██████╗██╗     ██╗",
-    "  ██╔══██╗██╔═══██╗██╔════╝╚══██╔══╝██╔════╝██║     ██║",
-    "  ██████╔╝██║   ██║███████╗   ██║   ██║     ██║     ██║",
-    "  ██╔═══╝ ██║   ██║╚════██║   ██║   ██║     ██║     ██║",
-    "  ██║     ╚██████╔╝███████║   ██║   ╚██████╗███████╗██║",
-    "  ╚═╝      ╚═════╝ ╚══════╝   ╚═╝    ╚═════╝╚══════╝╚═╝",
-    "  ❯ PostCLI — interactive developer HTTP client",
-    "  Type a request (e.g. GET /posts/1) or type /help for guides.",
-    "  Esc - Toggle Scroll Mode (j/k to scroll log, c to copy)",
+    "██████╗  ██████╗ ███████╗████████╗ ██████╗██╗     ██╗",
+    "██╔══██╗██╔═══██╗██╔════╝╚══██╔══╝██╔════╝██║     ██║",
+    "██████╔╝██║   ██║███████╗   ██║   ██║     ██║     ██║",
+    "██╔═══╝ ██║   ██║╚════██║   ██║   ██║     ██║     ██║",
+    "██║     ╚██████╔╝███████║   ██║   ╚██████╗███████╗██║",
+    "╚═╝      ╚═════╝ ╚══════╝   ╚═╝    ╚═════╝╚══════╝╚═╝",
+    "",
+    "Type a request (e.g. GET /posts/1) or type /help for guides.",
     ""
   ]);
 
@@ -59,7 +58,7 @@ export function usePostCli() {
     };
   }, []);
 
-  const VIEWPORT_HEIGHT = Math.max(6, terminalRows - 9);
+  const VIEWPORT_HEIGHT = Math.max(5, terminalRows - 10);
   const INSPECTOR_HEIGHT = Math.max(8, terminalRows - 9);
   const totalLines = consoleLines.length;
 
@@ -190,7 +189,7 @@ export function usePostCli() {
     // B. Handle HTTP Requests
     setLoading(true);
     const logIndex = consoleLines.length + 1; // track index to append response later
-    setConsoleLines((prev) => [...prev, `⠋ Sending ${parsed.method} ${parsed.url}...`]);
+    setConsoleLines((prev) => [...prev, `Sending ${parsed.method} ${parsed.url}...`]);
 
     const result = await executeRequest({
       method: parsed.method,

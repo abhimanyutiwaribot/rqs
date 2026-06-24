@@ -46,7 +46,9 @@ export default function ReplConsole({ state }: ReplConsoleProps) {
         {visibleLines.map((line, i) => (
           <Box key={i}>
             {/* Run highlighting only if it looks like JSON structure */}
-            {/^\s*([{\}[\]"]|true|false|null|-?\d)/.test(line) ? (
+            {!line ? (
+              <Text>{" "}</Text>
+            ) : /^\s*([{\}[\]"]|true|false|null|-?\d)/.test(line) ? (
               highlightJsonLine(line)
             ) : (
               <Text 
@@ -113,6 +115,15 @@ export default function ReplConsole({ state }: ReplConsoleProps) {
           </Box>
         )}
       </Box>
+
+      {/* Guide bar for Edit/Input Mode */}
+      {state.panel === "input" && (
+        <Box paddingX={2} marginTop={0}>
+          <Text dimColor>
+            Press <Text color="magenta">Esc</Text> scroll mode  •  Type <Text color="magenta">/help</Text> commands  •  Press <Text color="magenta">v</Text> inspector
+          </Text>
+        </Box>
+      )}
     </Box>
   );
 }
