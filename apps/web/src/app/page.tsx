@@ -37,16 +37,22 @@ export default function Home() {
       }`}
     >
       {/* Wrapper to align header to top and content nicely */}
-      <div className="w-full max-w-5xl mx-auto flex flex-col gap-8 md:gap-12 px-4 py-6 md:px-8 md:py-12">
+      <div className="w-full max-w-5xl mx-auto flex flex-col gap-8 md:gap-18 px-4 py-6 md:px-8 md:py-12">
         {/* Header Bar */}
         <Header isDarkMode={isDarkMode} onToggleTheme={() => setIsDarkMode(!isDarkMode)} />
 
         {/* Content Section: Split Columns, aligned at start top level */}
         <main className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start">
           {/* Left Column: Heading and Install Snippet */}
-          <div className="md:col-span-5 flex flex-col items-start gap-6 md:gap-8">
-            <h1 className="text-xl md:text-2xl font-semibold leading-relaxed tracking-wide text-left whitespace-pre-line">
-              {"An interactive,\nTerminal-based\nHTTP-Client\nbuilt\nfor you!!"}
+          <div className="md:col-span-5 flex flex-col items-center md:items-start gap-6 md:gap-8 w-full">
+            {/* Mobile Tagline (exactly 3 lines, centered) */}
+            <h1 className="block md:hidden text-xl font-semibold leading-relaxed tracking-wide text-center w-full whitespace-pre-line">
+              {"An interactive,\nTerminal-based HTTP-Client\nbuilt for you!!"}
+            </h1>
+
+            {/* Desktop Tagline (flows naturally, left-aligned) */}
+            <h1 className="hidden md:block text-2xl font-semibold leading-relaxed tracking-wide text-left w-full">
+              An interactive, Terminal-based <br /> HTTP-Client <br /> built for you!!
             </h1>
 
             {/* Install command card */}
