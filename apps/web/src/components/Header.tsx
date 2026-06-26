@@ -8,12 +8,14 @@ interface HeaderProps {
 export default function Header({ isDarkMode, onToggleTheme }: HeaderProps) {
   return (
     <header
-      className={`flex items-center justify-between px-6 py-4 md:px-12 rounded-full border transition-all ${
+      className={`flex items-center justify-between px-6 py-4 md:px-8 rounded-full border transition-all ${
         isDarkMode ? "border-zinc-800 bg-black" : "border-zinc-500 bg-[#bebebe]"
       }`}
     >
       <div className="flex items-center gap-2">
-        <span className="font-bold text-base md:text-lg">postcli &gt;</span>
+        <span className="font-bold text-base md:text-lg">
+          postcli <span className="text-magenta font-black">❯</span>
+        </span>
       </div>
       <div className="flex items-center gap-4 md:gap-8">
         <a

@@ -38,7 +38,7 @@ export default function InstallCard({
         <button
           aria-label="Copy Command"
           className={`p-1 rounded transition-colors ${
-            isDarkMode ? "hover:bg-zinc-900 text-zinc-400 group-hover:text-white" : "hover:bg-zinc-300 text-zinc-600 group-hover:text-black"
+            isDarkMode ? "hover:bg-zinc-900 text-zinc-400 group-hover:text-magenta" : "hover:bg-zinc-300 text-zinc-600 group-hover:text-magenta"
           }`}
         >
           {copied ? (
@@ -89,7 +89,7 @@ export default function InstallCard({
               onClick={() => onSelectPkg(pkg)}
               className={`text-xs md:text-sm transition-all hover:underline ${
                 activePkg === pkg
-                  ? "font-bold underline"
+                  ? "font-bold text-magenta underline underline-offset-4"
                   : isDarkMode
                   ? "text-zinc-400 hover:text-white"
                   : "text-zinc-600 hover:text-black"
