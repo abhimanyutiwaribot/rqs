@@ -4,17 +4,17 @@ export default function SyntaxGuide() {
   return (
     <section className="flex flex-col gap-4">
       <h1 className="text-2xl md:text-3xl font-bold tracking-wide border-b border-dashed border-zinc-500/20 pb-2">
-        Syntax Guide
+        syntax guide
       </h1>
       <p className="text-base md:text-lg text-zinc-850 dark:text-zinc-300">
-        Construct quick HTTP requests using our intuitive parameters mapping. Parameters are tokenized using spaces.
+        write http requests using clean parameters separated by spaces.
       </p>
 
       <div className="flex flex-col gap-8 mt-4">
         <div className="flex flex-col gap-2">
-          <span className="text-sm md:text-base font-bold text-magenta">1. HTTP Method & URL Path</span>
+          <span className="text-sm md:text-base font-bold text-magenta">1. Method & Endpoint</span>
           <p className="text-sm md:text-base text-zinc-700 dark:text-zinc-400">
-            Prepend the method keyword. If omitted, the request defaults to GET. Relative paths compile against the Base URL.
+            start with the method (GET, POST, etc). if skipped, we default to GET. relative paths resolve against the base url.
           </p>
           <div className="p-4 rounded-lg border font-mono text-sm overflow-x-auto select-all border-zinc-500 bg-white text-black dark:border-zinc-800 dark:bg-zinc-950 dark:text-white">
             GET /posts <br />
@@ -25,7 +25,7 @@ export default function SyntaxGuide() {
         <div className="flex flex-col gap-2">
           <span className="text-sm md:text-base font-bold text-magenta">2. Query Parameters (==)</span>
           <p className="text-sm md:text-base text-zinc-700 dark:text-zinc-400">
-            Map query queries using the double equals symbol.
+            use double equals (==) to add query parameters to your path.
           </p>
           <div className="p-4 rounded-lg border font-mono text-sm overflow-x-auto select-all border-zinc-500 bg-white text-black dark:border-zinc-800 dark:bg-zinc-950 dark:text-white">
             GET /posts limit==10 page==2
@@ -35,7 +35,7 @@ export default function SyntaxGuide() {
         <div className="flex flex-col gap-2">
           <span className="text-sm md:text-base font-bold text-magenta">3. Custom Headers (:)</span>
           <p className="text-sm md:text-base text-zinc-700 dark:text-zinc-400">
-            Map headers using the colon separator. Quote values containing spaces.
+            use a colon (:) to pass request headers. wrap values in quotes if they contain spaces.
           </p>
           <div className="p-4 rounded-lg border font-mono text-sm overflow-x-auto select-all border-zinc-500 bg-white text-black dark:border-zinc-800 dark:bg-zinc-950 dark:text-white">
             GET /users Authorization:"Bearer token123" Content-Type:application/json
@@ -43,9 +43,9 @@ export default function SyntaxGuide() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <span className="text-sm md:text-base font-bold text-magenta">4. JSON Body String Parameters (=)</span>
+          <span className="text-sm md:text-base font-bold text-magenta">4. JSON Body Strings (=)</span>
           <p className="text-sm md:text-base text-zinc-700 dark:text-zinc-400">
-            For POST, PUT, or PATCH, assign key-value strings with the single equals symbol.
+            use a single equals (=) to send standard text string fields inside the request JSON body.
           </p>
           <div className="p-4 rounded-lg border font-mono text-sm overflow-x-auto select-all border-zinc-500 bg-white text-black dark:border-zinc-800 dark:bg-zinc-950 dark:text-white">
             POST /posts title="New post" category=tech
@@ -55,7 +55,7 @@ export default function SyntaxGuide() {
         <div className="flex flex-col gap-2">
           <span className="text-sm md:text-base font-bold text-magenta">5. Raw Type JSON Values (:=)</span>
           <p className="text-sm md:text-base text-zinc-700 dark:text-zinc-400">
-            Map non-string types (booleans, numbers, arrays, nested objects) to JSON using the colon-equals symbol.
+            use colon-equals (:=) to send typed data like numbers, booleans, arrays, or raw json objects.
           </p>
           <div className="p-4 rounded-lg border font-mono text-sm overflow-x-auto select-all border-zinc-500 bg-white text-black dark:border-zinc-800 dark:bg-zinc-950 dark:text-white">
             POST /posts published:=true views:=150 tags:='["news", "web"]'
@@ -65,7 +65,7 @@ export default function SyntaxGuide() {
         <div className="flex flex-col gap-2">
           <span className="text-sm md:text-base font-bold text-magenta">6. Nested JSON Objects (user[name])</span>
           <p className="text-sm md:text-base text-zinc-700 dark:text-zinc-400">
-            Build nested fields using standard bracket notation.
+            build nested JSON layouts using bracket paths.
           </p>
           <div className="p-4 rounded-lg border font-mono text-sm overflow-x-auto select-all border-zinc-500 bg-white text-black dark:border-zinc-800 dark:bg-zinc-950 dark:text-white">
             POST /users user[name]="John" user[address][city]="Seattle"
