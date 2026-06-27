@@ -2,11 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 
-interface CommandBuilderProps {
-  isDarkMode: boolean;
-}
-
-export default function CommandBuilder({ isDarkMode }: CommandBuilderProps) {
+export default function CommandBuilder() {
   const [method, setMethod] = useState<"GET" | "POST" | "PUT" | "DELETE">("GET");
   const [path, setPath] = useState("/posts");
   const [headersText, setHeadersText] = useState("Authorization: Bearer token123");
@@ -53,70 +49,84 @@ export default function CommandBuilder({ isDarkMode }: CommandBuilderProps) {
 
       const args: { key: string; val: string; isJson: boolean }[] = [];
 
-      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
-        Object.entries(parsed).forEach(([k, v]) => {
-          if (typeof v === "string") {
-            args.push({ key: k, val: v, isJson: false });
+      const traverse = (obj: any, currentPrefix = "") => {
+        if (obj === null) {
+          args.push({ key: currentPrefix, val: "null", isJson: true });
+          return;
+        }
+
+        if (typeof obj === "object") {
+          if (Array.isArray(obj)) {
+            // Arrays are treated as raw JSON
+            args.push({
+              key: currentPrefix + "[]",
+              val: JSON.stringify(obj),
+              isJson: true,
+            });
           } else {
-            // Numbers, booleans, arrays, objects use the := operator
-            args.push({ key: k, val: JSON.stringify(v), isJson: true });
+            // Objects are traversed
+            Object.keys(obj).forEach((key) => {
+              const fullKey = currentPrefix ? `${currentPrefix}[${key}]` : key;
+              traverse(obj[key], fullKey);
+            });
           }
-        });
-      }
+        } else if (typeof obj === "string") {
+          // Wrap strings in quotes if containing spaces
+          const escaped = obj.includes(" ") ? `"${obj}"` : obj;
+          args.push({ key: currentPrefix, val: escaped, isJson: false });
+        } else if (typeof obj === "number" || typeof obj === "boolean") {
+          args.push({ key: currentPrefix, val: String(obj), isJson: true });
+        }
+      };
+
+      traverse(parsed);
       setParsedBodyArgs(args);
     } catch {
       setIsJsonValid(false);
     }
   }, [bodyJson, method]);
 
-  // Construct CLI parts for output
+  // Compute tokenized parts for inline monochrome rendering
   const getCommandParts = () => {
-    const parts: { type: "method" | "path" | "header" | "body" | "bodyJson"; raw: string; key?: string; val?: string; operator?: string }[] = [];
+    const parts: { raw: string; type: "method" | "path" | "header" | "body" }[] = [];
 
-    parts.push({ type: "method", raw: method });
-    parts.push({ type: "path", raw: path || "/" });
+    // 1. Method
+    parts.push({ raw: method, type: "method" });
 
-    // Append parsed headers
-    getParsedHeaders().forEach((h) => {
-      const formattedVal = h.val.includes(" ") ? `"${h.val}"` : h.val;
-      parts.push({
-        type: "header",
-        raw: `${h.key}:${formattedVal}`,
-        key: h.key,
-        operator: ":",
-        val: formattedVal
-      });
+    // 2. Path (or URL)
+    parts.push({ raw: path, type: "path" });
+
+    // 3. Headers
+    const headers = getParsedHeaders();
+    headers.forEach((h) => {
+      const escapedVal = h.val.includes(" ") ? `"${h.val}"` : h.val;
+      parts.push({ raw: `${h.key}:${escapedVal}`, type: "header" });
     });
 
-    // Append JSON body args (only for POST/PUT)
+    // 4. Body (For POST/PUT/etc)
     if (method === "POST" || method === "PUT") {
-      parsedBodyArgs.forEach((b) => {
-        const operator = b.isJson ? ":=" : "=";
-        const formattedVal = b.isJson ? b.val : (b.val.includes(" ") ? `"${b.val}"` : b.val);
-        parts.push({
-          type: b.isJson ? "bodyJson" : "body",
-          raw: `${b.key}${operator}${formattedVal}`,
-          key: b.key,
-          operator,
-          val: formattedVal
-        });
+      parsedBodyArgs.forEach((arg) => {
+        const symbol = arg.isJson ? ":=" : "=";
+        parts.push({ raw: `${arg.key}${symbol}${arg.val}`, type: "body" });
       });
     }
 
     return parts;
   };
 
-  const getRawCommandString = () => {
-    return getCommandParts().map(p => p.raw).join(" ");
+  const getFullCommandText = () => {
+    return getCommandParts()
+      .map((p) => p.raw)
+      .join(" ");
   };
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(getRawCommandString());
+      await navigator.clipboard.writeText(getFullCommandText());
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // ignore
+      // Fallback
     }
   };
 
@@ -127,7 +137,7 @@ export default function CommandBuilder({ isDarkMode }: CommandBuilderProps) {
         <h2 className="text-xl md:text-2xl font-bold tracking-wide">
           Interactive Command Builder
         </h2>
-        <p className={`text-xs md:text-sm ${isDarkMode ? "text-zinc-400" : "text-zinc-700"}`}>
+        <p className="text-xs md:text-sm text-zinc-650 dark:text-zinc-400">
           Learn the CLI's intuitive syntax. Play with fields below to instantly generate a command.
         </p>
       </div>
@@ -144,10 +154,7 @@ export default function CommandBuilder({ isDarkMode }: CommandBuilderProps) {
             <select
               value={method}
               onChange={(e) => setMethod(e.target.value as any)}
-              className={`w-full px-4 py-3 border rounded-xl font-mono text-xs focus:outline-none focus:ring-1 focus:ring-magenta appearance-none cursor-pointer ${isDarkMode
-                ? "border-zinc-800 bg-zinc-950 text-white"
-                : "border-zinc-400 text-black"
-                }`}
+              className="w-full px-4 py-3 border rounded-xl font-mono text-xs focus:outline-none focus:ring-1 focus:ring-magenta appearance-none cursor-pointer border-zinc-500 text-black dark:border-zinc-800 dark:bg-zinc-950 dark:text-white"
               style={{
                 appearance: 'none',
                 backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
@@ -173,10 +180,7 @@ export default function CommandBuilder({ isDarkMode }: CommandBuilderProps) {
               value={path}
               onChange={(e) => setPath(e.target.value)}
               placeholder="/posts?limit=10"
-              className={`w-full px-4 py-3 border rounded-xl font-mono text-xs focus:outline-none focus:ring-1 focus:ring-magenta ${isDarkMode
-                ? "border-zinc-800 bg-zinc-950 text-white"
-                : "border-zinc-400 text-black"
-                }`}
+              className="w-full px-4 py-3 border rounded-xl font-mono text-xs focus:outline-none focus:ring-1 focus:ring-magenta border-zinc-500 text-black dark:border-zinc-800 dark:bg-zinc-950 dark:text-white"
             />
           </div>
         </div>
@@ -191,10 +195,7 @@ export default function CommandBuilder({ isDarkMode }: CommandBuilderProps) {
             onChange={(e) => setHeadersText(e.target.value)}
             placeholder="Content-Type: application/json"
             rows={3}
-            className={`w-full px-4 py-3 border rounded-xl font-mono text-xs focus:outline-none focus:ring-1 focus:ring-magenta resize-y min-h-[80px] custom-scrollbar ${isDarkMode
-              ? "border-zinc-800 bg-zinc-950 text-white"
-              : "border-zinc-400 text-black"
-              }`}
+            className="w-full px-4 py-3 border rounded-xl font-mono text-xs focus:outline-none focus:ring-1 focus:ring-magenta resize-y min-h-[80px] custom-scrollbar border-zinc-500 text-black dark:border-zinc-800 dark:bg-zinc-950 dark:text-white"
           />
         </div>
 
@@ -216,28 +217,22 @@ export default function CommandBuilder({ isDarkMode }: CommandBuilderProps) {
               onChange={(e) => setBodyJson(e.target.value)}
               placeholder='{ "title": "New Post" }'
               rows={5}
-              className={`w-full px-4 py-3 border rounded-xl font-mono text-xs focus:outline-none focus:ring-1 focus:ring-magenta resize-y min-h-[100px] custom-scrollbar ${isDarkMode
-                ? "border-zinc-800 bg-zinc-950 text-white"
-                : "border-zinc-400 text-black"
-                }`}
+              className="w-full px-4 py-3 border rounded-xl font-mono text-xs focus:outline-none focus:ring-1 focus:ring-magenta resize-y min-h-[100px] custom-scrollbar border-zinc-500 text-black dark:border-zinc-800 dark:bg-zinc-950 dark:text-white"
             />
           </div>
         )}
 
         {/* Output Box */}
         <div className="flex flex-col gap-2 w-full overflow-hidden mt-2">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-555 dark:text-zinc-500">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-650 dark:text-zinc-500">
             Generated CLI Command
           </span>
 
           <div
-            className={`p-5 rounded-2xl border relative font-mono text-xs md:text-sm min-h-[70px] flex items-center justify-between group transition-all select-all ${isDarkMode
-              ? "border-zinc-800 text-white"
-              : "border-zinc-500 text-black"
-              }`}
+            className="p-5 rounded-2xl border relative font-mono text-xs md:text-sm min-h-[70px] flex items-center justify-between group transition-all select-all border-zinc-500 bg-[#bebebe] hover:border-zinc-700 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:border-zinc-700"
           >
             {/* Plain Command String - Black in light mode, White in dark mode. No variations. */}
-            <div className={`flex flex-row items-center gap-3 overflow-x-auto whitespace-nowrap custom-scrollbar pr-10 py-1 w-full select-all ${isDarkMode ? "text-white" : "text-black"}`}>
+            <div className="flex flex-row items-center gap-3 overflow-x-auto whitespace-nowrap custom-scrollbar pr-10 py-1 w-full select-all text-black dark:text-white">
               {getCommandParts().map((part, idx) => {
                 const isMethod = part.type === "method";
                 const isPath = part.type === "path";
@@ -254,8 +249,7 @@ export default function CommandBuilder({ isDarkMode }: CommandBuilderProps) {
 
             <button
               onClick={handleCopy}
-              className={`absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded transition-all cursor-pointer z-10 ${isDarkMode ? "hover:bg-zinc-900 text-zinc-400 hover:text-magenta" : "hover:bg-zinc-300 text-zinc-650 hover:text-magenta"
-                }`}
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded transition-all cursor-pointer z-10 hover:bg-zinc-300 text-zinc-650 hover:text-magenta dark:hover:bg-zinc-900 dark:text-zinc-400 dark:hover:text-magenta"
               aria-label="Copy Command"
             >
               {copied ? (
@@ -275,7 +269,7 @@ export default function CommandBuilder({ isDarkMode }: CommandBuilderProps) {
                 </svg>
               ) : (
                 <svg
-                  xmlns="http://www.w3.org/2500/svg"
+                  xmlns="http://www.w3.org/2000/svg"
                   width="15"
                   height="15"
                   viewBox="0 0 24 24"

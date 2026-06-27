@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 
 const INSTALL_COMMANDS = {
   npm: "npm install -g postcli",
@@ -7,39 +9,32 @@ const INSTALL_COMMANDS = {
   pnpm: "pnpm add -g postcli",
 };
 
-interface InstallCardProps {
-  isDarkMode: boolean;
-  activePkg: "npm" | "bun" | "yarn" | "pnpm";
-  onSelectPkg: (pkg: "npm" | "bun" | "yarn" | "pnpm") => void;
-  copied: boolean;
-  onCopy: () => void;
-}
+export default function InstallCard() {
+  const [activePkg, setActivePkg] = useState<"npm" | "bun" | "yarn" | "pnpm">("npm");
+  const [copied, setCopied] = useState(false);
 
-export default function InstallCard({
-  isDarkMode,
-  activePkg,
-  onSelectPkg,
-  copied,
-  onCopy,
-}: InstallCardProps) {
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(INSTALL_COMMANDS[activePkg]);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback
+    }
+  };
+
   return (
     <div className="w-full flex flex-col gap-4">
       <div
-        onClick={onCopy}
-        className={`flex items-center justify-between gap-4 px-5 py-4 rounded-xl border cursor-pointer select-none transition-all group ${
-          isDarkMode
-            ? "border-zinc-800 bg-black hover:border-zinc-650"
-            : "border-zinc-500 bg-[#bebebe] hover:border-zinc-700"
-        }`}
+        onClick={handleCopy}
+        className="flex items-center justify-between gap-4 px-5 py-4 rounded-xl border cursor-pointer select-none transition-all group border-zinc-500 bg-[#bebebe] hover:border-zinc-700 dark:border-zinc-800 dark:bg-black dark:hover:border-zinc-650"
       >
         <code className="text-xs md:text-sm font-semibold select-all">
           {INSTALL_COMMANDS[activePkg]}
         </code>
         <button
           aria-label="Copy Command"
-          className={`p-1 rounded transition-colors ${
-            isDarkMode ? "hover:bg-zinc-900 text-zinc-400 group-hover:text-magenta" : "hover:bg-zinc-300 text-zinc-600 group-hover:text-magenta"
-          }`}
+          className="p-1 rounded transition-colors hover:bg-zinc-300 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 group-hover:text-magenta"
         >
           {copied ? (
             // Checkmark Icon on Success
@@ -79,20 +74,18 @@ export default function InstallCard({
 
       {/* Package manager switcher options */}
       <div className="flex flex-col items-center gap-1.5 mt-1">
-        <span className={`text-[10px] uppercase tracking-widest ${isDarkMode ? "text-zinc-500" : "text-zinc-600"}`}>
+        <span className="text-[10px] uppercase tracking-widest text-zinc-650 dark:text-zinc-500">
           or
         </span>
         <div className="flex gap-6 items-center justify-center">
           {(["npm", "bun", "yarn", "pnpm"] as const).map((pkg) => (
             <button
               key={pkg}
-              onClick={() => onSelectPkg(pkg)}
+              onClick={() => setActivePkg(pkg)}
               className={`text-xs md:text-sm transition-all hover:underline ${
                 activePkg === pkg
                   ? "font-bold text-magenta underline underline-offset-4"
-                  : isDarkMode
-                  ? "text-zinc-400 hover:text-white"
-                  : "text-zinc-600 hover:text-black"
+                  : "text-zinc-650 hover:text-black dark:text-zinc-400 dark:hover:text-white"
               }`}
             >
               {pkg}

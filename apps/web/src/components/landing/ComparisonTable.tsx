@@ -1,12 +1,6 @@
-"use client";
-
 import React from "react";
 
-interface ComparisonTableProps {
-  isDarkMode: boolean;
-}
-
-export default function ComparisonTable({ isDarkMode }: ComparisonTableProps) {
+export default function ComparisonTable() {
   const comparisonData = [
     {
       feature: "Interface Type",
@@ -51,21 +45,19 @@ export default function ComparisonTable({ isDarkMode }: ComparisonTableProps) {
         <h2 className="text-xl md:text-2xl font-bold tracking-wide">
           How postcli compares?
         </h2>
-        <p className={`text-sm md:text-md ${isDarkMode ? "text-zinc-400" : "text-zinc-700"}`}>
+        <p className="text-sm md:text-md text-zinc-700 dark:text-zinc-400">
           How does postcli cooks👨🏻‍🍳 against these frauds --&gt; curl and bloated web clients?
         </p>
       </div>
 
       <div
-        className={`w-full border overflow-hidden transition-colors ${
-          isDarkMode ? "border-zinc-800 bg-black/40" : "border-zinc-500 bg-zinc-200/10"
-        }`}
+        className="w-full border overflow-hidden transition-colors border-zinc-500 bg-zinc-200/10 dark:border-zinc-800 dark:bg-black/40"
       >
         <div className="overflow-x-auto custom-scrollbar">
           <table className="w-full text-left border-collapse font-mono text-xs md:text-sm">
             <thead>
-              <tr className={`border-b transition-colors ${isDarkMode ? "border-zinc-800" : "border-zinc-500"}`}>
-                <th className={`p-4 font-bold ${isDarkMode ? "text-zinc-500" : "text-zinc-900"} uppercase tracking-wider min-w-[150px]`}>
+              <tr className="border-b transition-colors border-zinc-500 dark:border-zinc-800">
+                <th className="p-4 font-bold text-zinc-900 dark:text-zinc-500 uppercase tracking-wider min-w-[150px]">
                   Feature
                 </th>
                 <th className="p-4 font-bold text-magenta uppercase tracking-wider min-w-[160px] bg-magenta/5">
@@ -83,20 +75,18 @@ export default function ComparisonTable({ isDarkMode }: ComparisonTableProps) {
               {comparisonData.map((row, idx) => (
                 <tr
                   key={idx}
-                  className={`border-b last:border-b-0 transition-colors ${
-                    isDarkMode ? "border-zinc-850 hover:bg-zinc-900/20" : "border-zinc-400/50 hover:bg-zinc-200/40"
-                  }`}
+                  className="border-b last:border-b-0 transition-colors border-zinc-400/50 hover:bg-zinc-200/40 dark:border-zinc-850 dark:hover:bg-zinc-900/20"
                 >
-                  <td className={`p-4 font-semibold ${isDarkMode ? "text-zinc-200" : "text-black"}`}>
+                  <td className="p-4 font-semibold text-black dark:text-zinc-200">
                     {row.feature}
                   </td>
                   <td className="p-4 font-bold text-magenta bg-magenta/5 border-l border-r border-magenta/10">
                     {row.postcli}
                   </td>
-                  <td className={`p-4 ${isDarkMode ? "text-zinc-400" : "text-zinc-600"}`}>
+                  <td className="p-4 text-zinc-650 dark:text-zinc-400">
                     {row.curl}
                   </td>
-                  <td className={`p-4 ${isDarkMode ? "text-zinc-400" : "text-zinc-600"}`}>
+                  <td className="p-4 text-zinc-650 dark:text-zinc-400">
                     {row.postman}
                   </td>
                 </tr>

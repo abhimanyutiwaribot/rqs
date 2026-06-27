@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 interface HeaderProps {
   isDarkMode: boolean;
@@ -13,19 +14,21 @@ export default function Header({ isDarkMode, onToggleTheme }: HeaderProps) {
       }`}
     >
       <div className="flex items-center gap-2">
-        <span className="font-bold text-base md:text-lg">
-          postcli <span className="text-magenta font-black">❯</span>
-        </span>
+        <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
+          <span className="font-bold text-base md:text-lg">
+            postcli <span className="text-magenta font-black">❯</span>
+          </span>
+        </Link>
       </div>
       <div className="flex items-center gap-4 md:gap-8">
-        <a
-          href="#"
+        <Link
+          href="/docs"
           className={`text-xs md:text-sm hover:underline transition-colors ${
             isDarkMode ? "text-zinc-300 hover:text-white" : "text-zinc-700 hover:text-black"
           }`}
         >
           Docs
-        </a>
+        </Link>
         <a
           href="https://github.com/abhimanyutiwaribot/postcli"
           target="_blank"

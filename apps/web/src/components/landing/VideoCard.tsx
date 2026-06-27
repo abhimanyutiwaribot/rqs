@@ -1,21 +1,12 @@
-import React from "react";
-
-interface VideoCardProps {
-  isDarkMode: boolean;
-}
-
-export default function VideoCard({ isDarkMode }: VideoCardProps) {
+"use client"
+export default function VideoCard() {
   return (
     <div
-      className={`w-full h-[250px] sm:h-[350px] md:h-[400px] rounded-3xl border overflow-hidden relative flex items-center justify-center transition-all ${
-        isDarkMode ? "border-zinc-800 bg-black" : "border-zinc-500 bg-zinc-200/30"
-      }`}
+      className="w-full h-[250px] sm:h-[350px] md:h-[400px] rounded-3xl border overflow-hidden relative flex items-center justify-center transition-all border-zinc-500 bg-zinc-200/30 dark:border-zinc-800 dark:bg-black"
     >
       {/* Branded Fallback Placeholder label */}
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 select-none z-0">
-        <span className={`text-xs md:text-sm font-semibold tracking-wide font-mono ${
-          isDarkMode ? "text-magenta/50" : "text-magenta/80"
-        }`}>
+        <span className="text-xs md:text-sm font-semibold tracking-wide font-mono text-magenta/80 dark:text-magenta/50">
           [ demo video ]
         </span>
       </div>

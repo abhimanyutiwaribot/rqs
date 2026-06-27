@@ -1,10 +1,8 @@
 "use client";
 
-interface FooterProps {
-  isDarkMode: boolean;
-}
+import Link from "next/link";
 
-export default function Footer({ isDarkMode }: FooterProps) {
+export default function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -13,7 +11,7 @@ export default function Footer({ isDarkMode }: FooterProps) {
     <footer className="w-full max-w-5xl mx-auto px-4 pt-16 pb-12 mt-12 md:mt-24 flex flex-col items-center gap-6">
       {/* Use Now Call to Action Indicator */}
       <div className="flex flex-col items-center gap-1 select-none pointer-events-none">
-        <span className={`text-[10px] md:text-xs font-semibold tracking-widest ${isDarkMode ? "text-zinc-500" : "text-zinc-600"}`}>
+        <span className="text-[10px] md:text-xs font-semibold tracking-widest text-zinc-650 dark:text-zinc-500">
           use now
         </span>
         <svg
@@ -26,7 +24,7 @@ export default function Footer({ isDarkMode }: FooterProps) {
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={isDarkMode ? "text-zinc-500" : "text-zinc-600"}
+          className="text-zinc-655 dark:text-zinc-500"
         >
           <path d="M12 4v28" />
           <path d="m18 26-6 6-6-6" />
@@ -34,7 +32,7 @@ export default function Footer({ isDarkMode }: FooterProps) {
       </div>
 
       {/* Massive glowing neon brand mark */}
-      <div 
+      <div
         onClick={scrollToTop}
         className="cursor-pointer select-none relative flex items-center justify-center py-6 w-full overflow-hidden hover:scale-[1.01] transition-all duration-200"
         title="Scroll to top"
@@ -51,7 +49,7 @@ export default function Footer({ isDarkMode }: FooterProps) {
 
       {/* Dotted divider and simple copyright/links */}
       <div className="flex flex-col sm:flex-row items-center justify-between w-full border-t border-dashed border-zinc-500/20 pt-6 font-mono text-xs gap-4">
-        <div className={isDarkMode ? "text-zinc-500" : "text-zinc-600"}>
+        <div className="text-zinc-650 dark:text-zinc-500">
           <span>MIT License</span>
         </div>
         <div className="flex gap-6">
@@ -59,28 +57,23 @@ export default function Footer({ isDarkMode }: FooterProps) {
             href="https://github.com/abhimanyutiwaribot/postcli"
             target="_blank"
             rel="noopener noreferrer"
-            className={`hover:underline transition-all ${isDarkMode ? "text-zinc-500 hover:text-white" : "text-zinc-650 hover:text-black"
-              }`}
+            className="hover:underline transition-all text-zinc-650 dark:text-zinc-500 hover:text-black dark:hover:text-white"
           >
             Github
           </a>
-          <a
-            href="https://github.com/abhimanyutiwaribot/postcli"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`hover:underline transition-all ${isDarkMode ? "text-zinc-500 hover:text-white" : "text-zinc-650 hover:text-black"
-              }`}
+          <Link
+            href="/docs"
+            className="hover:underline transition-all text-zinc-650 dark:text-zinc-500 hover:text-black dark:hover:text-white"
           >
             Docs
-          </a>
+          </Link>
         </div>
-        <div className={isDarkMode ? "text-zinc-500" : "text-zinc-600"}>
+        <div className="text-zinc-650 dark:text-zinc-500">
           <span>made by <a
             href="https://x.com/abhimanyutwts"
             target="_blank"
             rel="noopener noreferrer"
-            className={`hover:underline transition-all ${isDarkMode ? "text-zinc-500 hover:text-white" : "text-zinc-650 hover:text-black"
-              }`}>@abhimanyutwts</a></span>
+            className="hover:underline transition-all text-zinc-650 dark:text-zinc-500 hover:text-black dark:hover:text-white">@abhimanyutwts</a></span>
         </div>
       </div>
     </footer>
