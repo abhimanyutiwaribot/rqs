@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Documentation — RQSH",
     description: "Learn how to use RQSH: interactive REPL commands, keyboard bindings, syntax mappings, and system slash commands.",
+    url:"https://rqsh.vercel.app/docs/getting-started",
+    siteName:"RQSH",
     images: [
       {
         url: "/opengraph-image-docs.png",
@@ -19,7 +21,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    title: "Documentation — RQSH",
+    description: "Learn how to use RQSH: interactive REPL commands, keyboard bindings, syntax mappings, and system slash commands.",
     images: ["/opengraph-image-docs.png"],
+    creator: "@abhimanyutwts"
   },
 };
 
