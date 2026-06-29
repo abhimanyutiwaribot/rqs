@@ -1,6 +1,6 @@
 {
   "name": "request-shell",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -12,7 +12,16 @@
     "prepack": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "rqsh",
+    "cli",
+    "http-client",
+    "repl",
+    "httpie",
+    "terminal",
+    "request-shell",
+    "curl"
+  ],
   "author": "",
   "license": "ISC",
   "type": "module",
