@@ -4,6 +4,7 @@ import VideoCard from "../components/landing/VideoCard";
 import CommandBuilder from "../components/landing/CommandBuilder";
 import ComparisonTable from "../components/landing/ComparisonTable";
 import Footer from "../components/Footer";
+import Header from "../components/Header";
 
 export const metadata: Metadata = {
   title: "RQSH — Interactive Terminal HTTP Client",
@@ -12,7 +13,11 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="w-full max-w-5xl mx-auto flex flex-col gap-12 md:gap-20 px-4 pb-12 md:px-8 md:pb-24 mt-8 md:mt-16 flex-grow">
+    <>
+      <div className="fixed left-0 right-0 top-0 z-50 flex flex-col items-center px-3 pt-3 sm:px-10 sm:pt-7 animate-fade-in">
+        <Header />
+      </div>
+      <div className="w-full max-w-5xl mx-auto flex flex-col gap-12 md:gap-20 px-4 pb-12 md:px-8 md:pb-24 pt-20 md:pt-28 flex-grow">
       
       {/* Hero Header Section */}
       <main className="flex flex-col gap-12 items-center w-full">
@@ -28,7 +33,7 @@ export default function Home() {
             </h1>
             <h1 className="hidden md:block text-2xl md:text-3xl font-semibold leading-relaxed tracking-wide text-center w-full">
               An interactive, terminal-based <br /> HTTP-Client <br />
-              <span className="inline-block bg-magenta text-black font-bold px-4 py-1 mt-3 rounded-[10px_35px_15px_30px_/_20px_10px_30px_15px] rotate-[-2deg] shadow-sm select-none">
+              <span className="inline-block bg-magenta text-black font-bold px-4 py-1 mt-1 rounded-[10px_35px_15px_30px_/_20px_10px_30px_15px] rotate-[-2deg] shadow-sm select-none">
                 built for you!!
               </span>
             </h1>
@@ -52,5 +57,6 @@ export default function Home() {
       <ComparisonTable />
       <Footer />
     </div>
+    </>
   );
 }

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Header from "../components/Header";
 import LoadingScreen from "../components/LoadingScreen";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -63,10 +63,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <LoadingScreen />
-          <div className="w-full max-w-6xl mx-auto px-4 pt-6 md:px-8 md:pt-12 animate-fade-in">
-            <Header />
-          </div>
           {children}
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>

@@ -20,7 +20,7 @@ export default function Header() {
   const isDark = resolvedTheme === "dark";
 
   return (
-    <header className="flex items-center justify-between px-6 py-4 md:px-8 rounded-full border transition-all border-zinc-500 bg-[#bebebe] dark:border-zinc-800 dark:bg-black">
+    <header className="flex w-full max-w-[826px] items-center justify-between gap-3 rounded-full border px-4 py-3 transition-[background-color,border-color,color,box-shadow,backdrop-filter] duration-700 ease-out sm:gap-4 sm:px-5 sm:py-3.5 border-slate-200/70 dark:border-zinc-800/60 bg-white/45 dark:bg-black/70 text-slate-900 dark:text-white shadow-[0_10px_40px_rgba(15,23,42,0.08)] dark:shadow-[0_10px_40px_rgba(0,0,0,0.5)] backdrop-blur-md backdrop-saturate-150">
       <div className="flex items-center gap-2">
         <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
           <span className="font-bold text-base md:text-lg">
